@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .preview {
+            margin-top: 20px;
+            border: 1px dashed #ccc;
+            padding: 10px;
+            display: none;
+        }
+
+        .preview img {
+            max-width: 100%;
+            max-height: 300px;
+        }
+
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Image Upload Test</h1>
+
+        <div class="form-group">
+            <label for="imageFile">Select an image:</label>
+            <input type="file" id="imageFile" accept="image/*">
+        </div>
+
+        <div class="preview" id="imagePreview">
+            <h3>Preview:</h3>
+            <img id="previewImg" src="" alt="Image preview">
+        </div>
+
+        <button id="uploadBtn">Upload Image</button>
+
+        <div id="response"></div>
+    </div>
+
+    <script>
+        // Preview image before upload
+        document.getElementById('imageFile').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    document.getElementById('previewImg').src = event.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle upload button click
+        document.getElementById('uploadBtn').addEventListener('click', function () {
+            const fileInput = document.getElementById('imageFile');
+            const responseElement = document.getElementById('response');
+
+            if (!fileInput.files.length) {
+                alert('Please select an image first');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+
+            // Show loading state
+            responseElement.textContent = 'Uploading...';
+            responseElement.style.display = 'block';
+
+            fetch('http://localhost/project/images-rest/upload.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    responseElement.textContent = JSON.stringify(data, null, 2);
+
+                    // If successful, show the image link
+                    if (data.success) {
+                        const linkElement = document.createElement('div');
+                        linkElement.innerHTML = `<p>View uploaded image: <a href="${data.file.full_url}" target="_blank">${data.file.name}</a></p>`;
+                        responseElement.appendChild(linkElement);
+                    }
+                })
+                .catch(error => {
+                    responseElement.textContent = 'Error uploading image: ' + error;
+                });
+        });
+    </script>
+</body>
+
+</html>
