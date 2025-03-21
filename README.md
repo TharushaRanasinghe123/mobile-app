@@ -45,28 +45,29 @@ CREATE TABLE IF NOT EXISTS comments (
    ```sh
    flutter run
    ```
-4. Setup PHP backend:
-Install XAMPP (or any other local server like WAMP or MAMP) from here.
+4. Setup PHP backend
+   
+### Setup PHP backend  
 
-Start Apache and MySQL from the XAMPP control panel.
+1. **Install XAMPP (or WAMP/MAMP)**  
+   - Download XAMPP from [here](https://www.apachefriends.org/index.html).  
 
-Place PHP files (e.g., upload.php, fetch_images.php) into the htdocs folder inside the XAMPP directory.
+2. **Start Apache and MySQL**  
+   - Open XAMPP Control Panel and start both Apache and MySQL services.  
 
-Create the database:
+3. **Setup PHP files**  
+   - Copy PHP files (`upload.php`, `fetch_images.php`) into the `htdocs` folder inside the XAMPP directory.  
 
-Go to phpMyAdmin and create a database (mobile_app_db).
-Run the SQL queries to create the tables.
-Edit database connection in the PHP files:
+4. **Create the database**  
+   - Open [phpMyAdmin](http://localhost/phpmyadmin/).  
+   - Create a new database named `ImageDB`.  
+   - Run the provided SQL queries to create necessary tables.  
 
-php
-Copy
-Edit
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "mobile_app_db";
-Run the PHP files:
+5. **Edit PHP files for DB connection**  
+   - Open `upload.php` and `fetch_images.php` and configure the database connection:  
 
-To upload: http://localhost/project-name/upload.php
-To fetch images: http://localhost/project-name/fetch_images.php
-
+   ```php
+   $servername = "localhost";
+   $username = "root";
+   $password = "";
+   $dbname = "ImageDB";
