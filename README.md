@@ -8,7 +8,7 @@ A Flutter mobile app that allows users to:
 - 📂 View a list of previously uploaded images with comments
 
 ## 🛠 Tech Stack
-- **Frontend:** Flutter, Dart, Image Picker, HTTP
+- **Frontend:** Flutter, Dart
 - **Backend:** PHP, MySQL
 
 ## 🗄 Database Schema
@@ -28,8 +28,9 @@ CREATE TABLE IF NOT EXISTS comments (
 ```
 
 ## 🔗 API Endpoints
-- **POST /upload.php** → Upload image & comment
+- **POST /upload.php** → Upload images
 - **GET /fetch_images.php** → Fetch uploaded images
+- more other
 
 ## 🚀 Setup
 1. Clone the project:  
